@@ -25,6 +25,7 @@ Client::~Client()
 {
 }
 
+//Override for Qthread function
 void Client::run()
 {
 	currentHostAddress = QHostAddress::Null;
@@ -64,28 +65,29 @@ void Client::Connect(const CommandInfo & info)
     // Makes it possible to push the disconnect button
 }
 
+//Disconnect from the server
 void Client::Disconnect(const CommandInfo & info)
 {
+	QString message;
+	//Check if connected to a server
 	if (!currentHostAddress.isNull())
 	{
-		window->PrintMessage("Disconnected from " + currentHostAddress.toString());
+		message = "Disconnected from " + currentHostAddress.toString();
 		currentHostAddress = QHostAddress::Null;
 	}
+	//Not connected to a server
 	else
 	{
-		window->PrintMessage("You have to be connected to a server to disconnect from it!");
+		message = "You have to be connected to a server to disconnect from it!";
 	}
-}
-
-void Client::Send(const std::string& message)
-{
-	if (!currentHostAddress.isNull())
+	//Check if we have window open
+	if (window != nullptr)
 	{
-		Send(m_socket, CommandInfo(message, message.size(), currentHostAddress, SERVER_PORT));
+		window->PrintMessage(message);
 	}
 }
 
-
+//Start a new thread for Client
 void Client::StartThread(MainWindow * w)
 {
 	Client* client = new Client();
@@ -95,6 +97,10 @@ void Client::StartThread(MainWindow * w)
 	client->start();
 }
 
+void Client::SetWindow(MainWindow * w)
+{
+	window = w;
+}
 
 // Checks for and interprets command received in our QUdpSocket
 void Client::Receive()
@@ -116,6 +122,16 @@ void Client::Receive()
 void Client::Send(QUdpSocket* socket, const CommandInfo& info)
 {
     socket->writeDatagram(&info.buffer[0], info.buffer.size() + 1, info.address, info.port);
+}
+
+//Override for send
+void Client::Send(const std::string& message)
+{
+	//Check if client is connected
+	if (!currentHostAddress.isNull())
+	{
+		Send(m_socket, CommandInfo(message, message.size(), currentHostAddress, SERVER_PORT));
+	}
 }
 
 // Interprets the data we got in the receive method

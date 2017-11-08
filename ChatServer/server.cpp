@@ -41,6 +41,7 @@ Server::Server()
 
 Server::~Server()
 {
+	//Delete all clients from the server
 	for (auto it = clients.begin(); it != clients.end();)
 	{
 		delete (*it);
@@ -78,26 +79,33 @@ void Server::Connect(const CommandInfo& info)
 	}
 }
 
+//Disconnect command from client
 void Server::Disconnect(const CommandInfo & info)
 {
+	//Get which client
 	Client* c = GetClient(info);
 
+	//Remove the client from the client vector
 	auto itr = std::find(clients.begin(), clients.end(), c);
     clients.erase(itr);
 
     std::cout << c->GetName() << " has disconnected" << std::endl;
 
+	//Delete the client from the server
     delete c;
 
+	//Send a text message to the client 
 	CommandInfo newInfo = info;
 	newInfo.buffer = CMD_DISCONNECTFROMSERVER.Key();
 	Send(m_socket, newInfo);
 }
 
+//Change name command
 void Server::ChangeName(const CommandInfo & info)
 {	
 	CommandInfo newInfo = info;
 
+	//Check if the name have any space in it
 	if (info.args.find(' ') != info.args.npos)
 	{
 		newInfo.buffer = "You can't use spaces in your name!";
@@ -109,9 +117,11 @@ void Server::ChangeName(const CommandInfo & info)
 	// Gets the client communicating with the server
 	Client* c = GetClient(info);
 
+	//Check if the client is already using that name
 	if (c->GetName() != info.args)
 	{
 		bool canChange = true;
+		//Check if any other clients is using that name
 		for (auto client : clients)
 		{
 			if (client->GetName() == info.args)
@@ -124,6 +134,7 @@ void Server::ChangeName(const CommandInfo & info)
 				break;
 			}
 		}
+		//Change the name
 		if (canChange)
 		{
 			newInfo.buffer = "You're name was changed from " + ((c->GetName() == "") ? "nothing" : c->GetName()) + " to " + info.args;
@@ -145,7 +156,7 @@ void Server::Whisper(const CommandInfo & info)
 	if (info.buffer.size() < CMD_WHISPER.Key().size() + 4 || info.args[0] != ' ')
 	{
 		CommandInfo newInfo = info;
-		newInfo.buffer = CMD_WHISPER.Help();
+		newInfo.buffer = "help: " + CMD_WHISPER.Help();
 		Send(m_socket, newInfo);
 		return;
 	}
@@ -159,7 +170,7 @@ void Server::Whisper(const CommandInfo & info)
 	if (message.size() <= 0)
 	{
 		CommandInfo newInfo = info;
-		newInfo.buffer = CMD_WHISPER.Help();
+		newInfo.buffer = "help: " + CMD_WHISPER.Help();
 		Send(m_socket, newInfo);
 		return;
 	}
@@ -181,6 +192,7 @@ void Server::Whisper(const CommandInfo & info)
 
 }
 
+//Help command for client
 void Server::Help(const CommandInfo & info)
 {
 	CommandInfo newInfo = info;
@@ -191,7 +203,7 @@ void Server::Help(const CommandInfo & info)
 	Send(m_socket, newInfo);
 }
 
-// Wrapper for sf::UdpSocket method 'send'
+// Wrapper for QUdpSocket method 'writeDatagram'
 void Server::Send(QUdpSocket* socket, const CommandInfo & info)
 {
     socket->writeDatagram(&info.buffer[0], info.buffer.size() + 1, info.address, info.port);

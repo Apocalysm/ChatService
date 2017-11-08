@@ -18,9 +18,11 @@ ConnectDialog::~ConnectDialog()
     delete ui;
 }
 
+// Tries connecting to the specified address
 void ConnectDialog::on_connectButton_clicked()
 {
     Client::Join(QHostAddress(ui->addressBar->text()));
+	this->close();
 }
 
 void ConnectDialog::on_addressBar_returnPressed()

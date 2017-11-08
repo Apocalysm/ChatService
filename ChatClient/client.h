@@ -28,6 +28,8 @@ public:
     static void Send(const std::string& message);
 	static void StartThread(MainWindow* w);
 
+	static void SetWindow(MainWindow* w);
+
 private:
 	static MainWindow* window;
 
