@@ -14,13 +14,24 @@
 #endif
 
 const unsigned short SERVER_PORT = 55002;
+struct CommandKey
+{
+    const COMMON_DLLSPEC std::string& Key() const;
+    const COMMON_DLLSPEC std::string& Help() const;
+
+    COMMON_DLLSPEC CommandKey(const char* key_, const char* help_);
+
+private:
+	std::string key;
+	std::string help;
+};
 
 /* Key Commands */
-const std::string CONNECTTOSERVER_KEY = "/connect";
-const std::string DISCONNECTFROMSERVER_KEY = "/disconnect";
-const std::string WHISPER_KEY = "/whisper";
-const std::string HELP_KEY = "/help";
-const std::string CHANGENAME_KEY = "/name";
+const CommandKey CMD_CONNECTTOSERVER = { "/connect", "" };
+const CommandKey CMD_DISCONNECTFROMSERVER = { "/disconnect", "" };
+const CommandKey CMD_WHISPER = { "/whisper", "/whisper &lt;name&gt;" };
+const CommandKey CMD_CHANGENAME = { "/name", "/name &lt;NewName&gt;" };
+const CommandKey CMD_HELP = { "/help", "" };
 
 
 struct CommandInfo

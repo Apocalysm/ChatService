@@ -27,6 +27,7 @@ public:
 
     static void Send(const std::string& message);
 	static void StartThread(MainWindow* w);
+
 private:
 	static MainWindow* window;
 

@@ -14,6 +14,7 @@
 QUdpSocket* Server::m_socket = new QUdpSocket();
 std::vector<Client*> Server::clients = std::vector<Client*>();
 StringToFunctioMap Server::commandMap = StringToFunctioMap();
+std::unordered_map<std::string, std::string> Server::functionHelpMap = std::unordered_map<std::string, std::string>();
 
 std::string Server::name = "Default";
 
@@ -24,15 +25,29 @@ Server::Server()
     //m_socket->setBlocking(false);
 
     /* Inserts all the command-functions into an unordered_map */
-    commandMap.insert(commandPair(CONNECTTOSERVER_KEY, Server::Connect));
-    commandMap.insert(commandPair(DISCONNECTFROMSERVER_KEY, Server::Disconnect));
-	commandMap.insert(commandPair(CHANGENAME_KEY, Server::ChangeName));
-	commandMap.insert(commandPair(WHISPER_KEY, Server::Whisper));
-}
+    commandMap.insert(commandPair(CMD_CONNECTTOSERVER.Key(), Server::Connect));
+    commandMap.insert(commandPair(CMD_DISCONNECTFROMSERVER.Key(), Server::Disconnect));
+	commandMap.insert(commandPair(CMD_CHANGENAME.Key(), Server::ChangeName));
+	commandMap.insert(commandPair(CMD_WHISPER.Key(), Server::Whisper));
+	commandMap.insert(commandPair(CMD_HELP.Key(), Server::Help));
 
+	/* Inserts all command help strings into an unordered map*/
+	functionHelpMap.insert(stringPair(CMD_CONNECTTOSERVER.Key(), CMD_CONNECTTOSERVER.Help()));
+	functionHelpMap.insert(stringPair(CMD_DISCONNECTFROMSERVER.Key(), CMD_DISCONNECTFROMSERVER.Help()));
+	functionHelpMap.insert(stringPair(CMD_CHANGENAME.Key(), CMD_CHANGENAME.Help()));
+	functionHelpMap.insert(stringPair(CMD_WHISPER.Key(), CMD_WHISPER.Help()));
+	functionHelpMap.insert(stringPair(CMD_HELP.Key(), CMD_HELP.Help()));
+}
 
 Server::~Server()
 {
+	for (auto it = clients.begin(); it != clients.end();)
+	{
+		delete (*it);
+		clients.erase(it);
+	}
+
+	delete m_socket;
 }
 
 
@@ -54,7 +69,7 @@ void Server::Connect(const CommandInfo& info)
 	if(addClient)
 	{
 		// Sends a command prompt to the client to make them connect to the server
-		CommandInfo newInfo(CONNECTTOSERVER_KEY, sizeof(CONNECTTOSERVER_KEY), info.address, info.port);
+		CommandInfo newInfo(CMD_CONNECTTOSERVER.Key(), CMD_CONNECTTOSERVER.Key().size(), info.address, info.port);
 		Send(m_socket, newInfo);
 
 		std::cout << "Client at: " << QString(info.address.toString()).toStdString() << ":" << info.port << " connected" << std::endl;
@@ -73,14 +88,26 @@ void Server::Disconnect(const CommandInfo & info)
     std::cout << c->GetName() << " has disconnected" << std::endl;
 
     delete c;
+
+	CommandInfo newInfo = info;
+	newInfo.buffer = CMD_DISCONNECTFROMSERVER.Key();
+	Send(m_socket, newInfo);
 }
 
 void Server::ChangeName(const CommandInfo & info)
-{
+{	
+	CommandInfo newInfo = info;
+
+	if (info.args.find(' ') != info.args.npos)
+	{
+		newInfo.buffer = "You can't use spaces in your name!";
+		Send(m_socket, newInfo);
+		return;
+	}
+
+
 	// Gets the client communicating with the server
 	Client* c = GetClient(info);
-	
-	CommandInfo newInfo = info;
 
 	if (c->GetName() != info.args)
 	{
@@ -115,33 +142,53 @@ void Server::ChangeName(const CommandInfo & info)
 void Server::Whisper(const CommandInfo & info)
 {	
 	// Checks if the command was long enough to hold a /whisper command call
-	if (info.buffer.size() >= WHISPER_KEY.size() + 4 && info.args[0] != ' ')
+	if (info.buffer.size() < CMD_WHISPER.Key().size() + 4 || info.args[0] != ' ')
 	{
-		// Gets the name the client is whispering to 
-		size_t spacePosition = info.args.find(' ');
-		std::string name = info.args.substr(0, spacePosition);
-
-		// Gets the whisper messsage from the args
-		std::string message = info.args.substr(spacePosition + 1, info.buffer.size() - 1);
-
-		if (message.size() > 0)
-		{
-			// Gets the client receiving the whisper
-			Client* receiver = GetClient(name);
-
-			// Gets the client trying to whisper 
-			Client* sender = GetClient(info);
-
-			std::string receivedMessage = "<i>" + sender->GetName() + " whispers" + "</i>" + ": " + message;
-			std::string sentMessage = "<i>To " + name + "</i>" + ": " + message;
-
-			CommandInfo senderInfo = info;
-			senderInfo.buffer = sentMessage;
-			Send(m_socket, senderInfo);
-
-			Send(m_socket, CommandInfo(receivedMessage, receivedMessage.size(), receiver->GetAddress(), receiver->GetPort()));
-		}
+		CommandInfo newInfo = info;
+		newInfo.buffer = CMD_WHISPER.Help();
+		Send(m_socket, newInfo);
+		return;
 	}
+	// Gets the name the client is whispering to 
+	size_t spacePosition = info.args.find(' ');
+	std::string name = info.args.substr(0, spacePosition);
+
+	// Gets the whisper messsage from the args
+	std::string message = info.args.substr(spacePosition + 1, info.buffer.size() - 1);
+
+	if (message.size() <= 0)
+	{
+		CommandInfo newInfo = info;
+		newInfo.buffer = CMD_WHISPER.Help();
+		Send(m_socket, newInfo);
+		return;
+	}
+
+	// Gets the client receiving the whisper
+	Client* receiver = GetClient(name);
+
+	// Gets the client trying to whisper 
+	Client* sender = GetClient(info);
+
+	std::string receivedMessage = "<i>" + sender->GetName() + " whispers" + "</i>" + ": " + message;
+	std::string sentMessage = "<i>To " + name + "</i>" + ": " + message;
+
+	CommandInfo senderInfo = info;
+	senderInfo.buffer = sentMessage;
+	Send(m_socket, senderInfo);
+
+	Send(m_socket, CommandInfo(receivedMessage, receivedMessage.size(), receiver->GetAddress(), receiver->GetPort()));
+
+}
+
+void Server::Help(const CommandInfo & info)
+{
+	CommandInfo newInfo = info;
+	newInfo.buffer = "help:<br>";
+	newInfo.buffer += "/disconnect Disconnects from current host <br/>";
+	newInfo.buffer += CMD_WHISPER.Help() + "<br/>";
+	newInfo.buffer += CMD_CHANGENAME.Help() + "<br/>";
+	Send(m_socket, newInfo);
 }
 
 // Wrapper for sf::UdpSocket method 'send'
@@ -219,8 +266,18 @@ void Server::InterpretCommand(const CommandInfo& info)
 				{
 					newInfo.args = info.buffer.substr(spacePosition + 1, info.buffer.size() - 1);
 				}
+				
+				if (functionHelpMap[command].size() > 0)
+				{
+					if (newInfo.args.size() <= 0)
+					{
+						newInfo.buffer = "help: " + functionHelpMap[command];
+						Send(m_socket, newInfo);
+						return;
+					}
+				}
 				// Calls the command function
-                itr->second(newInfo);
+				itr->second(newInfo);
             }
         }
         // Normal text message

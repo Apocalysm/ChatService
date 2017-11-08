@@ -13,8 +13,8 @@ QHostAddress Client::currentHostAddress;
 /* Fills our std::map with all the command functions*/
 StringToFunctioMap Client::commandMap =
 {
-	{ commandPair(CONNECTTOSERVER_KEY, Client::Connect) },
-	{ commandPair(DISCONNECTFROMSERVER_KEY, Client::Disconnect) }
+	{ commandPair(CMD_CONNECTTOSERVER.Key(), Client::Connect) },
+	{ commandPair(CMD_DISCONNECTFROMSERVER.Key(), Client::Disconnect) }
 };
 
 Client::Client()
@@ -40,7 +40,7 @@ void Client::run()
 void Client::Join(const QHostAddress& address)
 {
     // Sends a command string to the server    
-    Send(m_socket, CommandInfo(CONNECTTOSERVER_KEY, CONNECTTOSERVER_KEY.size(),address, SERVER_PORT));
+    Send(m_socket, CommandInfo(CMD_CONNECTTOSERVER.Key(), CMD_CONNECTTOSERVER.Key().size(),address, SERVER_PORT));
 }
 
 // How the client wants to connect to the server
@@ -66,13 +66,8 @@ void Client::Connect(const CommandInfo & info)
 
 void Client::Disconnect(const CommandInfo & info)
 {
-	
 	if (!currentHostAddress.isNull())
 	{
-		//Disconnection code
-		Send(m_socket, CommandInfo(DISCONNECTFROMSERVER_KEY, DISCONNECTFROMSERVER_KEY.size(), currentHostAddress, SERVER_PORT));
-		//m_socket->disconnect();
-		window->ClearMessages();
 		window->PrintMessage("Disconnected from " + currentHostAddress.toString());
 		currentHostAddress = QHostAddress::Null;
 	}

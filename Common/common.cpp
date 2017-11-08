@@ -1,5 +1,21 @@
 #include "Common.h"
 
+CommandKey::CommandKey(const char* key_, const char* help_)
+    : key(key_)
+    , help(help_)
+{
+}
+
+const std::string& CommandKey::Key() const
+{
+    return key;
+}
+
+const std::string& CommandKey::Help() const
+{
+    return help;
+}
+
 CommandInfo::CommandInfo()
 {
 

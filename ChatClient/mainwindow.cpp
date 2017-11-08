@@ -5,6 +5,7 @@
 #include "connectdialog.h"
 
 #include "client.h"
+#include "common.h"
 
 #include <QKeyEvent>
 
@@ -24,6 +25,8 @@ MainWindow::MainWindow(QWidget *parent) :
 MainWindow::~MainWindow()
 {
     delete ui;
+
+	Client::Send(CMD_DISCONNECTFROMSERVER.Key());
 }
 
 void MainWindow::GoUpInCommandBuffer()
@@ -45,10 +48,10 @@ void MainWindow::PrintMessage(QString message)
     ui->textBrowser->append(message);
 }
 
-
+// Clears all the messages in the text browser
 void MainWindow::ClearMessages()
 {
-    ui->textBrowser->clear();
+	ui->textBrowser->setText("");
 }
 
 // Sends a message from the chat window
@@ -93,7 +96,7 @@ void MainWindow::on_actionConnect_triggered()
 
 void MainWindow::on_actionDisconnect_triggered()
 {
-    Client::Disconnect(CommandInfo());
+	Client::Send(CMD_DISCONNECTFROMSERVER.Key());
 }
 
 

@@ -76,7 +76,7 @@
     </ClCompile>
     <Link>
       <AdditionalDependencies>common.lib;D:\QT\QT5.6.3\5.6.3\MSVC2015\lib\qtmain.lib;shell32.lib;D:\QT\QT5.6.3\5.6.3\MSVC2015\lib\Qt5Widgets.lib;D:\QT\QT5.6.3\5.6.3\MSVC2015\lib\Qt5Gui.lib;D:\QT\QT5.6.3\5.6.3\MSVC2015\lib\Qt5Network.lib;D:\QT\QT5.6.3\5.6.3\MSVC2015\lib\Qt5Core.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>..\Common;D:\QT\QT5.6.3\5.6.3\MSVC2015\lib;C:\Utils\my_sql\my_sqlx86\lib;C:\Utils\postgresqlx86\pgsql\lib;$(QTDIR)\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>..\CommonBuild\release;D:\QT\QT5.6.3\5.6.3\MSVC2015\lib;C:\Utils\my_sql\my_sqlx86\lib;C:\Utils\postgresqlx86\pgsql\lib;$(QTDIR)\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalOptions>"/MANIFESTDEPENDENCY:type='win32' name='Microsoft.Windows.Common-Controls' version='6.0.0.0' publicKeyToken='6595b64144ccf1df' language='*' processorArchitecture='*'" %(AdditionalOptions)</AdditionalOptions>
       <DataExecutionPrevention>true</DataExecutionPrevention>
       <GenerateDebugInformation>false</GenerateDebugInformation>
@@ -118,7 +118,7 @@
     </ClCompile>
     <Link>
       <AdditionalDependencies>common.lib;D:\QT\QT5.6.3\5.6.3\MSVC2015\lib\qtmaind.lib;shell32.lib;D:\QT\QT5.6.3\5.6.3\MSVC2015\lib\Qt5Widgetsd.lib;D:\QT\QT5.6.3\5.6.3\MSVC2015\lib\Qt5Guid.lib;D:\QT\QT5.6.3\5.6.3\MSVC2015\lib\Qt5Networkd.lib;D:\QT\QT5.6.3\5.6.3\MSVC2015\lib\Qt5Cored.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>..\Common;D:\QT\QT5.6.3\5.6.3\MSVC2015\lib;C:\Utils\my_sql\my_sqlx86\lib;C:\Utils\postgresqlx86\pgsql\lib;$(QTDIR)\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>..\CommonBuild\debug;D:\QT\QT5.6.3\5.6.3\MSVC2015\lib;C:\Utils\my_sql\my_sqlx86\lib;C:\Utils\postgresqlx86\pgsql\lib;$(QTDIR)\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalOptions>"/MANIFESTDEPENDENCY:type='win32' name='Microsoft.Windows.Common-Controls' version='6.0.0.0' publicKeyToken='6595b64144ccf1df' language='*' processorArchitecture='*'" %(AdditionalOptions)</AdditionalOptions>
       <DataExecutionPrevention>true</DataExecutionPrevention>
       <GenerateDebugInformation>true</GenerateDebugInformation>
