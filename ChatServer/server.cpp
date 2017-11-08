@@ -6,9 +6,12 @@
 
 #include <QtNetwork/QHostAddress>
 #include <QtNetwork/QUdpSocket>
+#include <QtNetwork/QNetworkAccessManager>
+#include <QtNetwork/QNetworkReply>
 #include <QString>
 
 #include "client.h"
+#include "HttpService.h"
 
 // Static members
 QUdpSocket* Server::m_socket = new QUdpSocket();
@@ -29,6 +32,7 @@ Server::Server()
     commandMap.insert(commandPair(CMD_DISCONNECTFROMSERVER.Key(), Server::Disconnect));
 	commandMap.insert(commandPair(CMD_CHANGENAME.Key(), Server::ChangeName));
 	commandMap.insert(commandPair(CMD_WHISPER.Key(), Server::Whisper));
+	commandMap.insert(commandPair(CMD_BTC.Key(), Server::GetBitcoin));
 	commandMap.insert(commandPair(CMD_HELP.Key(), Server::Help));
 
 	/* Inserts all command help strings into an unordered map*/
@@ -36,6 +40,7 @@ Server::Server()
 	functionHelpMap.insert(stringPair(CMD_DISCONNECTFROMSERVER.Key(), CMD_DISCONNECTFROMSERVER.Help()));
 	functionHelpMap.insert(stringPair(CMD_CHANGENAME.Key(), CMD_CHANGENAME.Help()));
 	functionHelpMap.insert(stringPair(CMD_WHISPER.Key(), CMD_WHISPER.Help()));
+	functionHelpMap.insert(stringPair(CMD_BTC.Key(), CMD_BTC.Help()));
 	functionHelpMap.insert(stringPair(CMD_HELP.Key(), CMD_HELP.Help()));
 }
 
@@ -49,12 +54,6 @@ Server::~Server()
 	}
 
 	delete m_socket;
-}
-
-
-void Server::Update()
-{
-
 }
 
 // The connecting process of the client with login, register etc.
@@ -192,6 +191,25 @@ void Server::Whisper(const CommandInfo & info)
 
 }
 
+void Server::GetBitcoin(const CommandInfo & info)
+{
+	// QNetworkAccessManager* manager = new QNetworkAccessManager();
+	// QNetworkReply* reply = manager->get(QNetworkRequest(QUrl("http://preev.com")));
+	// reply->connect(manager, SIGNAL(finished(QNetworkReply*)), reply, SLOT(replyFinished(QNetworkReply*)));
+	
+	HttpService* service = new HttpService();
+	service->MakeRequest();
+
+	/*
+	reply->waitForReadyRead(500);
+	QByteArray data = reply->readAll();
+	for (size_t i = 0; i < data.size(); i++)
+	{
+		std::cout << data[i] << std::endl;
+	}
+	*/
+}
+
 //Help command for client
 void Server::Help(const CommandInfo & info)
 {
@@ -207,6 +225,11 @@ void Server::Help(const CommandInfo & info)
 void Server::Send(QUdpSocket* socket, const CommandInfo & info)
 {
     socket->writeDatagram(&info.buffer[0], info.buffer.size() + 1, info.address, info.port);
+}
+
+void Server::replyFinished(QNetworkReply * reply)
+{
+	int hej = 5;
 }
 
 // Wrapper for sf::UdpSocket method 'receive'
@@ -252,7 +275,7 @@ Client * Server::GetClient(const std::string & name)
 // Interprets the data we got in the receive method
 void Server::InterpretCommand(const CommandInfo& info)
 {
-    if (info.size != 0)
+    if (info.buffer.size() != 0)
     {
 		// Copies info
 		CommandInfo newInfo = info;

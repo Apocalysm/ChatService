@@ -121,7 +121,7 @@ void Client::Receive()
 // Wrapper for QUdpSocket method writeDatagram
 void Client::Send(QUdpSocket* socket, const CommandInfo& info)
 {
-    socket->writeDatagram(&info.buffer[0], info.buffer.size() + 1, info.address, info.port);
+    socket->writeDatagram(&info.buffer[0], sizeof(info.buffer) + 1, info.address, info.port);
 }
 
 //Override for send
@@ -138,7 +138,7 @@ void Client::Send(const std::string& message)
 void Client::InterpretCommand(const CommandInfo& info)
 {
 
-    if (info.size != 0)
+    if (info.buffer.size() != 0)
     {
         // Checks if the text was a command or not
         if (info.buffer[0] == '/')

@@ -29,8 +29,10 @@ private:
 /* Key Commands */
 const CommandKey CMD_CONNECTTOSERVER = { "/connect", "" };
 const CommandKey CMD_DISCONNECTFROMSERVER = { "/disconnect", "" };
-const CommandKey CMD_WHISPER = { "/whisper", "/whisper &lt;name&gt;" };
 const CommandKey CMD_CHANGENAME = { "/name", "/name &lt;NewName&gt;" };
+const CommandKey CMD_WHISPER = { "/whisper", "/whisper &lt;name&gt;" };
+const CommandKey CMD_BTC = { "/btc", "" };
+
 const CommandKey CMD_HELP = { "/help", "" };
 
 
