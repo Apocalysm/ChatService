@@ -112,7 +112,7 @@ void Client::Receive()
 {
 	CommandInfo info;
 	char bfr[1024];
-	m_socket->readDatagram(bfr, sizeof(bfr), &info.address, &info.port);
+	m_socket->readDatagram(bfr, 1024, &info.address, &info.port);
 	info.buffer = bfr;
 	InterpretCommand(info);
 }
@@ -120,7 +120,7 @@ void Client::Receive()
 // Wrapper for QUdpSocket method writeDatagram
 void Client::Send(QUdpSocket* socket, const CommandInfo& info)
 {
-    socket->writeDatagram(info.buffer.c_str(), info.buffer.size() + 1, info.address, info.port);
+    socket->writeDatagram(&info.buffer[0], sizeof(info.buffer) + 1, info.address, info.port);
 }
 
 //Override for send
@@ -136,6 +136,7 @@ void Client::Send(const std::string& message)
 // Interprets the data we got in the receive method
 void Client::InterpretCommand(const CommandInfo& info)
 {
+
     if (info.buffer.size() != 0)
     {
         // Checks if the text was a command or not
