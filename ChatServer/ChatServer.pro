@@ -1,4 +1,4 @@
-QT += core
+QT += core xml
 QT -= gui
 
 CONFIG += c++11

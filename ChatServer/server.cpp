@@ -15,6 +15,7 @@
 #include "HttpService.h"
 
 // Static members
+unsigned int Server::numberOfClients = 0;
 QUdpSocket* Server::m_socket;
 std::vector<Client*> Server::clients = std::vector<Client*>();
 StringToFunctioMap Server::commandMap = StringToFunctioMap();
@@ -76,7 +77,7 @@ void Server::Connect(const CommandInfo& info)
 
 		std::cout << "Client at: " << QString(info.address.toString()).toStdString() << ":" << info.port << " connected" << std::endl;
 		// Adds the client to our vector
-		clients.push_back(new Client(QHostAddress(info.address), info.port, ""));
+		clients.push_back(new Client(QHostAddress(info.address), info.port, "User" + std::to_string(++numberOfClients)));
 	}
 }
 
@@ -153,14 +154,10 @@ void Server::ChangeName(const CommandInfo & info)
 // /whisper
 void Server::Whisper(const CommandInfo & info)
 {	
+	bool sendWhisper = true;
 	// Checks if the command was long enough to hold a /whisper command call
-	if (info.buffer.size() < CMD_WHISPER.Key().size() + 4 || info.args[0] != ' ')
-	{
-		CommandInfo newInfo = info;
-		newInfo.buffer = "help: " + CMD_WHISPER.Help();
-		Send(m_socket, newInfo);
-		return;
-	}
+	sendWhisper = info.buffer.size() > CMD_WHISPER.Key().size() + 4 || info.args[0] != ' ';
+
 	// Gets the name the client is whispering to 
 	size_t spacePosition = info.args.find(' ');
 	std::string name = info.args.substr(0, spacePosition);
@@ -168,16 +165,17 @@ void Server::Whisper(const CommandInfo & info)
 	// Gets the whisper messsage from the args
 	std::string message = info.args.substr(spacePosition + 1, info.buffer.size() - 1);
 
-	if (message.size() <= 0)
+	sendWhisper = message.size() > 0;
+
+	// Gets the client receiving the whisper
+	Client* receiver = GetClient(name);
+	if(!sendWhisper || receiver == nullptr)
 	{
 		CommandInfo newInfo = info;
 		newInfo.buffer = "help: " + CMD_WHISPER.Help();
 		Send(m_socket, newInfo);
 		return;
 	}
-
-	// Gets the client receiving the whisper
-	Client* receiver = GetClient(name);
 
 	// Gets the client trying to whisper 
 	Client* sender = GetClient(info);
@@ -195,21 +193,9 @@ void Server::Whisper(const CommandInfo & info)
 
 void Server::GetBitcoin(const CommandInfo & info)
 {
-	// QNetworkAccessManager* manager = new QNetworkAccessManager();
-	// QNetworkReply* reply = manager->get(QNetworkRequest(QUrl("http://preev.com")));
-	// reply->connect(manager, SIGNAL(finished(QNetworkReply*)), reply, SLOT(replyFinished(QNetworkReply*)));
-	
-	HttpService* service = new HttpService();
-	service->MakeRequest();
-
-	/*
-	reply->waitForReadyRead(500);
-	QByteArray data = reply->readAll();
-	for (size_t i = 0; i < data.size(); i++)
-	{
-		std::cout << data[i] << std::endl;
-	}
-	*/
+	CommandInfo newInfo = info;
+	newInfo.buffer = "The bitcoin currency exchange is not currently available, try at a later moment.";
+	Send(m_socket, newInfo);
 }
 
 //Help command for client
@@ -310,7 +296,7 @@ void Server::InterpretCommand(const CommandInfo& info)
         else
 		{
 			Client* c = GetClient(info);
-			std::string name = ((c->GetName() == "") ? (QString(info.address.toString()).toStdString() + ":" + std::to_string(info.port)) : c->GetName());
+			std::string name = c->GetName();
 			name += ": ";
 			newInfo.buffer.insert(0, name);
             for (auto client : clients)
@@ -324,22 +310,11 @@ void Server::InterpretCommand(const CommandInfo& info)
 }
 
 
-void Server::InitServer(const QCoreApplication& a)
+void Server::InitServer()
 {
 	Server* server = new Server();
-	//connect(server, SIGNAL(finished()), &a, SLOT(quit()));
 
 	m_socket = new QUdpSocket();
 	m_socket->bind(SERVER_PORT);
 	connect(m_socket, &QUdpSocket::readyRead, server, &Server::Receive);
-
-	//server->start();
-}
-
-
-void Server::run()
-{
-	QEventLoop loop;
-	connect(this, SIGNAL(finished()), &loop, SLOT(quit()));
-	loop.exec();
 }

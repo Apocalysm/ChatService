@@ -10,7 +10,7 @@ class MainWindow;
 
 // Chat client which inherits from QThread 
 // so all of the member functions can run in a thread separate from the main one
-class Client : public QThread
+class Client : public QObject
 {
 public:
     Client();

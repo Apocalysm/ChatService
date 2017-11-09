@@ -7,6 +7,8 @@
 #include <QNetworkAccessManager>
 #include <QAuthenticator>
 #include <QSslSocket>
+#include <QXmlStreamReader>
+#include <QXmlInputSource>
 
 HttpService::HttpService() :
 	manager(new QNetworkAccessManager(this))
@@ -23,7 +25,7 @@ HttpService::~HttpService()
 
 void HttpService::MakeRequest(/*QNetworkReply * reply*/)
 {
-	manager->get(QNetworkRequest(QUrl("http://preev.com/")));
+	manager->get(QNetworkRequest(QUrl("https://finance.google.com/finance/converter?a=1&from=BTC&to=USD")));
 }
 
 void HttpService::ignoreSslError(const QList<QSslError>& errors)
@@ -34,8 +36,5 @@ void HttpService::ignoreSslError(const QList<QSslError>& errors)
 
 void HttpService::replyFinished(QNetworkReply* res)
 {
-	std::cout << "It finished!" << std::endl;
-	QByteArray data = res->readAll();
-	for (int i = 0; i < data.length(); i++)
-		std::cout << data[i] << std::endl;
+	
 }

@@ -8,7 +8,7 @@ int main(int argc, char *argv[])
 {
     QCoreApplication a(argc, argv);
 
-	Server::InitServer(a);
+	Server::InitServer();
 
     return a.exec();
 }

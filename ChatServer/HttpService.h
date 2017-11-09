@@ -18,6 +18,7 @@ private slots:
 
 private:
 	class QNetworkAccessManager* manager;
+	class QString ReadHtml(class QXmlStreamReader &xml);
 
 };
 

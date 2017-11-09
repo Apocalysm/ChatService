@@ -93,8 +93,13 @@ void Client::StartThread(MainWindow * w)
 	Client* client = new Client();
 	client->window = w;
 
-	Client::connect(client, SIGNAL(finished()), w, SLOT(quit()));
-	client->start();
+	currentHostAddress = QHostAddress::Null;
+
+	m_socket = new QUdpSocket();
+	m_socket->bind();
+
+	Client::connect(m_socket, &QUdpSocket::readyRead, client, &Client::Receive);
+	//client->start();
 }
 
 void Client::SetWindow(MainWindow * w)
@@ -105,17 +110,11 @@ void Client::SetWindow(MainWindow * w)
 // Checks for and interprets command received in our QUdpSocket
 void Client::Receive()
 {
-	while (true)
-	{
-		if (m_socket->waitForReadyRead())
-		{
-			CommandInfo info;
-			char bfr[1024];
-			m_socket->readDatagram(bfr, 1024, &info.address, &info.port);
-			info.buffer = bfr;
-			InterpretCommand(info);
-		}
-	}
+	CommandInfo info;
+	char bfr[1024];
+	m_socket->readDatagram(bfr, 1024, &info.address, &info.port);
+	info.buffer = bfr;
+	InterpretCommand(info);
 }
 
 // Wrapper for QUdpSocket method writeDatagram

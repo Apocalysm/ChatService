@@ -56,7 +56,7 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
-      <AdditionalIncludeDirectories>..\Common;.;..\..\..\QT\QT5.6.3\5.6.3\MSVC2015\include;..\..\..\QT\QT5.6.3\5.6.3\MSVC2015\include\QtNetwork;..\..\..\QT\QT5.6.3\5.6.3\MSVC2015\include\QtCore;release;.;..\..\..\QT\QT5.6.3\5.6.3\MSVC2015\mkspecs\win32-msvc2015;.\GeneratedFiles;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\Common;.;..\..\..\QT\QT5.6.3\5.6.3\MSVC2015\include;..\..\..\QT\QT5.6.3\5.6.3\MSVC2015\include\QtXml;..\..\..\QT\QT5.6.3\5.6.3\MSVC2015\include\QtNetwork;..\..\..\QT\QT5.6.3\5.6.3\MSVC2015\include\QtCore;release;..\..\..\QT\QT5.6.3\5.6.3\MSVC2015\mkspecs\win32-msvc2015;.\GeneratedFiles;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalOptions>-Zc:strictStrings -Zc:throwingNew -w34100 -w34189 -w44996 -w44456 -w44457 -w44458 %(AdditionalOptions)</AdditionalOptions>
       <AssemblerListingLocation>release\</AssemblerListingLocation>
       <BrowseInformation>false</BrowseInformation>
@@ -75,7 +75,7 @@
       <WarningLevel>Level3</WarningLevel>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>common.lib;D:\QT\QT5.6.3\5.6.3\MSVC2015\lib\Qt5Network.lib;$(QTDIR)\lib\Qt5Core.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>common.lib;D:\QT\QT5.6.3\5.6.3\MSVC2015\lib\Qt5Xml.lib;D:\QT\QT5.6.3\5.6.3\MSVC2015\lib\Qt5Network.lib;$(QTDIR)\lib\Qt5Core.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>..\CommonBuild\release;$(QTDIR)\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalOptions>"/MANIFESTDEPENDENCY:type='win32' name='Microsoft.Windows.Common-Controls' version='6.0.0.0' publicKeyToken='6595b64144ccf1df' language='*' processorArchitecture='*'" %(AdditionalOptions)</AdditionalOptions>
       <DataExecutionPrevention>true</DataExecutionPrevention>
@@ -98,7 +98,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
-      <AdditionalIncludeDirectories>..\Common;.;..\..\..\QT\QT5.6.3\5.6.3\MSVC2015\include;..\..\..\QT\QT5.6.3\5.6.3\MSVC2015\include\QtNetwork;..\..\..\QT\QT5.6.3\5.6.3\MSVC2015\include\QtCore;release;.;..\..\..\QT\QT5.6.3\5.6.3\MSVC2015\mkspecs\win32-msvc2015;.\GeneratedFiles;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\Common;.;..\..\..\QT\QT5.6.3\5.6.3\MSVC2015\include;..\..\..\QT\QT5.6.3\5.6.3\MSVC2015\include\QtXml;..\..\..\QT\QT5.6.3\5.6.3\MSVC2015\include\QtNetwork;..\..\..\QT\QT5.6.3\5.6.3\MSVC2015\include\QtCore;release;..\..\..\QT\QT5.6.3\5.6.3\MSVC2015\mkspecs\win32-msvc2015;.\GeneratedFiles;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalOptions>-Zc:strictStrings -Zc:throwingNew -w34100 -w34189 -w44996 -w44456 -w44457 -w44458 %(AdditionalOptions)</AdditionalOptions>
       <AssemblerListingLocation>debug\</AssemblerListingLocation>
       <BrowseInformation>false</BrowseInformation>
@@ -117,7 +117,7 @@
       <ProgramDataBaseFileName>$(IntDir)vc$(PlatformToolsetVersion).pdb</ProgramDataBaseFileName>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>common.lib;D:\QT\QT5.6.3\5.6.3\MSVC2015\lib\Qt5Networkd.lib;$(QTDIR)\lib\Qt5Cored.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>common.lib;D:\QT\QT5.6.3\5.6.3\MSVC2015\lib\Qt5Xmld.lib;D:\QT\QT5.6.3\5.6.3\MSVC2015\lib\Qt5Networkd.lib;$(QTDIR)\lib\Qt5Cored.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>..\CommonBuild\debug;$(QTDIR)\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalOptions>"/MANIFESTDEPENDENCY:type='win32' name='Microsoft.Windows.Common-Controls' version='6.0.0.0' publicKeyToken='6595b64144ccf1df' language='*' processorArchitecture='*'" %(AdditionalOptions)</AdditionalOptions>
       <DataExecutionPrevention>true</DataExecutionPrevention>

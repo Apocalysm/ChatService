@@ -1,7 +1,6 @@
 #pragma once
 #include <vector>
 #include <QObject>
-#include <QCoreApplication>
 
 #include "common.h"
 
@@ -15,7 +14,7 @@ public:
     Server();
     ~Server();
 
-	static void InitServer(const QCoreApplication&);
+	static void InitServer();
 
 	static void Connect(const CommandInfo& info);
 	static void Disconnect(const CommandInfo& info);
@@ -27,6 +26,8 @@ public:
 	static void Send(QUdpSocket* socket, const CommandInfo& info);
 
 private:
+	static unsigned int numberOfClients;
+
 	static Client* GetClient(const CommandInfo& info);
 	static Client* GetClient(const std::string& name);
 
@@ -46,7 +47,6 @@ private:
 	static class HttpService* service;
 
 private slots:
-	void run();
 	void Receive();
 };
 

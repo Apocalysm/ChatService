@@ -25,7 +25,7 @@ const unsigned short Client::GetPort() const
 
 const std::string& Client::GetName() const
 {
-    return m_name;
+	return m_name;
 }
 
 void Client::SetName(const std::string& newName)
