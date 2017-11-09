@@ -12,7 +12,6 @@
 #include <QEventLoop>
 
 #include "client.h"
-#include "HttpService.h"
 
 // Static members
 unsigned int Server::numberOfClients = 0;
