@@ -11,7 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{FA912AB2-1154-343A-B469-41E3836462A8}</ProjectGuid>
+    <ProjectGuid>{2A20FF03-1E80-3C35-B01E-55B2594D38AC}</ProjectGuid>
     <RootNamespace>ChatClient</RootNamespace>
     <Keyword>Qt4VSv1.0</Keyword>
   </PropertyGroup>
@@ -56,7 +56,7 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
-      <AdditionalIncludeDirectories>..\Common;.;..\..\..\QT\QT5.6.3\5.6.3\MSVC2015\include;..\..\..\QT\QT5.6.3\5.6.3\MSVC2015\include\QtWidgets;..\..\..\QT\QT5.6.3\5.6.3\MSVC2015\include\QtGui;..\..\..\QT\QT5.6.3\5.6.3\MSVC2015\include\QtANGLE;..\..\..\QT\QT5.6.3\5.6.3\MSVC2015\include\QtNetwork;..\..\..\QT\QT5.6.3\5.6.3\MSVC2015\include\QtCore;release;.;..\..\..\QT\QT5.6.3\5.6.3\MSVC2015\mkspecs\win32-msvc2015;.\GeneratedFiles;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\Common;.;$(QTDIR)\include;$(QTDIR)\include\QtWidgets;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtNetwork;$(QTDIR)\include\QtCore;release;.;..\..\..\QT\QT5.6.3\5.6.3\MSVC2015\mkspecs\win32-msvc2015;.\GeneratedFiles;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalOptions>-Zc:strictStrings -Zc:throwingNew -w34100 -w34189 -w44996 -w44456 -w44457 -w44458 %(AdditionalOptions)</AdditionalOptions>
       <AssemblerListingLocation>release\</AssemblerListingLocation>
       <BrowseInformation>false</BrowseInformation>
@@ -75,8 +75,8 @@
       <WarningLevel>Level3</WarningLevel>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>common.lib;D:\QT\QT5.6.3\5.6.3\MSVC2015\lib\qtmain.lib;shell32.lib;D:\QT\QT5.6.3\5.6.3\MSVC2015\lib\Qt5Widgets.lib;D:\QT\QT5.6.3\5.6.3\MSVC2015\lib\Qt5Gui.lib;D:\QT\QT5.6.3\5.6.3\MSVC2015\lib\Qt5Network.lib;D:\QT\QT5.6.3\5.6.3\MSVC2015\lib\Qt5Core.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>..\CommonBuild\release;D:\QT\QT5.6.3\5.6.3\MSVC2015\lib;C:\Utils\my_sql\my_sqlx86\lib;C:\Utils\postgresqlx86\pgsql\lib;$(QTDIR)\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>..\CommonBuildr\release\common.lib;$(QTDIR)\lib\qtmain.lib;shell32.lib;$(QTDIR)\lib\Qt5Widgets.lib;$(QTDIR)\lib\Qt5Gui.lib;$(QTDIR)\lib\Qt5Network.lib;$(QTDIR)\lib\Qt5Core.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>..\CommonBuild\release;C:\Utils\my_sql\my_sqlx86\lib;C:\Utils\postgresqlx86\pgsql\lib;$(QTDIR)\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalOptions>"/MANIFESTDEPENDENCY:type='win32' name='Microsoft.Windows.Common-Controls' version='6.0.0.0' publicKeyToken='6595b64144ccf1df' language='*' processorArchitecture='*'" %(AdditionalOptions)</AdditionalOptions>
       <DataExecutionPrevention>true</DataExecutionPrevention>
       <GenerateDebugInformation>false</GenerateDebugInformation>
@@ -98,7 +98,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
-      <AdditionalIncludeDirectories>..\Common;.;..\..\..\QT\QT5.6.3\5.6.3\MSVC2015\include;..\..\..\QT\QT5.6.3\5.6.3\MSVC2015\include\QtWidgets;..\..\..\QT\QT5.6.3\5.6.3\MSVC2015\include\QtGui;..\..\..\QT\QT5.6.3\5.6.3\MSVC2015\include\QtANGLE;..\..\..\QT\QT5.6.3\5.6.3\MSVC2015\include\QtNetwork;..\..\..\QT\QT5.6.3\5.6.3\MSVC2015\include\QtCore;debug;.;..\..\..\QT\QT5.6.3\5.6.3\MSVC2015\mkspecs\win32-msvc2015;.\GeneratedFiles;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\Common;.;$(QTDIR)\include;$(QTDIR)\include\QtWidgets;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtNetwork;$(QTDIR)\include\QtCore;debug;.;..\..\..\QT\QT5.6.3\5.6.3\MSVC2015\mkspecs\win32-msvc2015;.\GeneratedFiles;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalOptions>-Zc:strictStrings -Zc:throwingNew -w34100 -w34189 -w44996 -w44456 -w44457 -w44458 %(AdditionalOptions)</AdditionalOptions>
       <AssemblerListingLocation>debug\</AssemblerListingLocation>
       <BrowseInformation>false</BrowseInformation>
@@ -117,8 +117,8 @@
       <ProgramDataBaseFileName>$(IntDir)vc$(PlatformToolsetVersion).pdb</ProgramDataBaseFileName>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>common.lib;D:\QT\QT5.6.3\5.6.3\MSVC2015\lib\qtmaind.lib;shell32.lib;D:\QT\QT5.6.3\5.6.3\MSVC2015\lib\Qt5Widgetsd.lib;D:\QT\QT5.6.3\5.6.3\MSVC2015\lib\Qt5Guid.lib;D:\QT\QT5.6.3\5.6.3\MSVC2015\lib\Qt5Networkd.lib;D:\QT\QT5.6.3\5.6.3\MSVC2015\lib\Qt5Cored.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>..\CommonBuild\debug;D:\QT\QT5.6.3\5.6.3\MSVC2015\lib;C:\Utils\my_sql\my_sqlx86\lib;C:\Utils\postgresqlx86\pgsql\lib;$(QTDIR)\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>..\CommonBuild\debug\common.lib;$(QTDIR)\lib\qtmaind.lib;shell32.lib;$(QTDIR)\lib\Qt5Widgetsd.lib;$(QTDIR)\lib\Qt5Guid.lib;$(QTDIR)\lib\Qt5Networkd.lib;$(QTDIR)\lib\Qt5Cored.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>..\CommonBuild\debug;C:\Utils\my_sql\my_sqlx86\lib;C:\Utils\postgresqlx86\pgsql\lib;$(QTDIR)\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalOptions>"/MANIFESTDEPENDENCY:type='win32' name='Microsoft.Windows.Common-Controls' version='6.0.0.0' publicKeyToken='6595b64144ccf1df' language='*' processorArchitecture='*'" %(AdditionalOptions)</AdditionalOptions>
       <DataExecutionPrevention>true</DataExecutionPrevention>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -160,9 +160,9 @@
     <ClInclude Include="GeneratedFiles\ui_connectdialog.h" />
     <ClInclude Include="GeneratedFiles\ui_mainwindow.h" />
     <CustomBuild Include="connectdialog.h">
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o "$(ConfigurationName)\moc_%(Filename).cpp"  -D_WINDOWS -DUNICODE -DWIN32 -DQT_NO_DEBUG -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_NETWORK_LIB -DQT_CORE_LIB -DNDEBUG  "-I.\..\Common" "-I." "-I.\..\..\..\QT\QT5.6.3\5.6.3\MSVC2015\include" "-I.\..\..\..\QT\QT5.6.3\5.6.3\MSVC2015\include\QtWidgets" "-I.\..\..\..\QT\QT5.6.3\5.6.3\MSVC2015\include\QtGui" "-I.\..\..\..\QT\QT5.6.3\5.6.3\MSVC2015\include\QtANGLE" "-I.\..\..\..\QT\QT5.6.3\5.6.3\MSVC2015\include\QtNetwork" "-I.\..\..\..\QT\QT5.6.3\5.6.3\MSVC2015\include\QtCore" "-I.\release" "-I.\..\..\..\QT\QT5.6.3\5.6.3\MSVC2015\mkspecs\win32-msvc2015" "-I.\GeneratedFiles"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o "$(ConfigurationName)\moc_%(Filename).cpp"  -D_WINDOWS -DUNICODE -DWIN32 -DQT_NO_DEBUG -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_NETWORK_LIB -DQT_CORE_LIB -DNDEBUG  "-I.\..\Common" "-I." "-I$(QTDIR)\include" "-I$(QTDIR)\include\QtWidgets" "-I$(QTDIR)\include\QtGui" "-I$(QTDIR)\include\QtANGLE" "-I$(QTDIR)\include\QtNetwork" "-I$(QTDIR)\include\QtCore" "-I.\release" "-I.\..\..\..\QT\QT5.6.3\5.6.3\MSVC2015\mkspecs\win32-msvc2015" "-I.\GeneratedFiles"</Command>
       <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Moc%27ing connectdialog.h...</Message>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o "$(ConfigurationName)\moc_%(Filename).cpp"  -D_WINDOWS -DUNICODE -DWIN32 -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_NETWORK_LIB -DQT_CORE_LIB  "-I.\..\Common" "-I." "-I.\..\..\..\QT\QT5.6.3\5.6.3\MSVC2015\include" "-I.\..\..\..\QT\QT5.6.3\5.6.3\MSVC2015\include\QtWidgets" "-I.\..\..\..\QT\QT5.6.3\5.6.3\MSVC2015\include\QtGui" "-I.\..\..\..\QT\QT5.6.3\5.6.3\MSVC2015\include\QtANGLE" "-I.\..\..\..\QT\QT5.6.3\5.6.3\MSVC2015\include\QtNetwork" "-I.\..\..\..\QT\QT5.6.3\5.6.3\MSVC2015\include\QtCore" "-I.\debug" "-I.\..\..\..\QT\QT5.6.3\5.6.3\MSVC2015\mkspecs\win32-msvc2015" "-I.\GeneratedFiles"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o "$(ConfigurationName)\moc_%(Filename).cpp"  -D_WINDOWS -DUNICODE -DWIN32 -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_NETWORK_LIB -DQT_CORE_LIB  "-I.\..\Common" "-I." "-I$(QTDIR)\include" "-I$(QTDIR)\include\QtWidgets" "-I$(QTDIR)\include\QtGui" "-I$(QTDIR)\include\QtANGLE" "-I$(QTDIR)\include\QtNetwork" "-I$(QTDIR)\include\QtCore" "-I.\debug" "-I.\..\..\..\QT\QT5.6.3\5.6.3\MSVC2015\mkspecs\win32-msvc2015" "-I.\GeneratedFiles"</Command>
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Moc%27ing connectdialog.h...</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
@@ -170,9 +170,9 @@
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
     </CustomBuild>
     <CustomBuild Include="mainwindow.h">
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o "$(ConfigurationName)\moc_%(Filename).cpp"  -D_WINDOWS -DUNICODE -DWIN32 -DQT_NO_DEBUG -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_NETWORK_LIB -DQT_CORE_LIB -DNDEBUG  "-I.\..\Common" "-I." "-I.\..\..\..\QT\QT5.6.3\5.6.3\MSVC2015\include" "-I.\..\..\..\QT\QT5.6.3\5.6.3\MSVC2015\include\QtWidgets" "-I.\..\..\..\QT\QT5.6.3\5.6.3\MSVC2015\include\QtGui" "-I.\..\..\..\QT\QT5.6.3\5.6.3\MSVC2015\include\QtANGLE" "-I.\..\..\..\QT\QT5.6.3\5.6.3\MSVC2015\include\QtNetwork" "-I.\..\..\..\QT\QT5.6.3\5.6.3\MSVC2015\include\QtCore" "-I.\release" "-I.\..\..\..\QT\QT5.6.3\5.6.3\MSVC2015\mkspecs\win32-msvc2015" "-I.\GeneratedFiles"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o "$(ConfigurationName)\moc_%(Filename).cpp"  -D_WINDOWS -DUNICODE -DWIN32 -DQT_NO_DEBUG -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_NETWORK_LIB -DQT_CORE_LIB -DNDEBUG  "-I.\..\Common" "-I." "-I$(QTDIR)\include" "-I$(QTDIR)\include\QtWidgets" "-I$(QTDIR)\include\QtGui" "-I$(QTDIR)\include\QtANGLE" "-I$(QTDIR)\include\QtNetwork" "-I$(QTDIR)\include\QtCore" "-I.\release" "-I.\..\..\..\QT\QT5.6.3\5.6.3\MSVC2015\mkspecs\win32-msvc2015" "-I.\GeneratedFiles"</Command>
       <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Moc%27ing mainwindow.h...</Message>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o "$(ConfigurationName)\moc_%(Filename).cpp"  -D_WINDOWS -DUNICODE -DWIN32 -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_NETWORK_LIB -DQT_CORE_LIB  "-I.\..\Common" "-I." "-I.\..\..\..\QT\QT5.6.3\5.6.3\MSVC2015\include" "-I.\..\..\..\QT\QT5.6.3\5.6.3\MSVC2015\include\QtWidgets" "-I.\..\..\..\QT\QT5.6.3\5.6.3\MSVC2015\include\QtGui" "-I.\..\..\..\QT\QT5.6.3\5.6.3\MSVC2015\include\QtANGLE" "-I.\..\..\..\QT\QT5.6.3\5.6.3\MSVC2015\include\QtNetwork" "-I.\..\..\..\QT\QT5.6.3\5.6.3\MSVC2015\include\QtCore" "-I.\debug" "-I.\..\..\..\QT\QT5.6.3\5.6.3\MSVC2015\mkspecs\win32-msvc2015" "-I.\GeneratedFiles"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o "$(ConfigurationName)\moc_%(Filename).cpp"  -D_WINDOWS -DUNICODE -DWIN32 -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_NETWORK_LIB -DQT_CORE_LIB  "-I.\..\Common" "-I." "-I$(QTDIR)\include" "-I$(QTDIR)\include\QtWidgets" "-I$(QTDIR)\include\QtGui" "-I$(QTDIR)\include\QtANGLE" "-I$(QTDIR)\include\QtNetwork" "-I$(QTDIR)\include\QtCore" "-I.\debug" "-I.\..\..\..\QT\QT5.6.3\5.6.3\MSVC2015\mkspecs\win32-msvc2015" "-I.\GeneratedFiles"</Command>
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Moc%27ing mainwindow.h...</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
