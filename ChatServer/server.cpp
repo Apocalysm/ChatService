@@ -212,7 +212,7 @@ void Server::Help(const CommandInfo & info)
 // Wrapper for QUdpSocket method 'writeDatagram'
 void Server::Send(QUdpSocket* socket, const CommandInfo & info)
 {
-    socket->writeDatagram(&info.buffer[0], info.buffer.size() + 1, info.address, info.port);
+    socket->writeDatagram(info.buffer.c_str(), info.buffer.size() + 1, info.address, info.port);
 }
 
 // SLOT: Wrapper for sf::UdpSocket method 'receive'
@@ -220,7 +220,7 @@ void Server::Receive()
 {
     CommandInfo info;
 	char bfr[1024];
-	m_socket->readDatagram(bfr, 1024, &info.address, &info.port);
+	m_socket->readDatagram(bfr, sizeof(bfr), &info.address, &info.port);
 	info.buffer = bfr;
 	InterpretCommand(info);
 }
@@ -298,7 +298,7 @@ void Server::InterpretCommand(const CommandInfo& info)
 			Client* c = GetClient(info);
 			std::string name = c->GetName();
 			name += ": ";
-			newInfo.buffer.insert(0, name);
+			newInfo.buffer.insert(0, "<b>" + name + "</b>");
             for (auto client : clients)
             {
 				newInfo.address = client->GetAddress();
