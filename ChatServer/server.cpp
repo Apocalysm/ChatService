@@ -9,22 +9,24 @@
 #include <QtNetwork/QNetworkAccessManager>
 #include <QtNetwork/QNetworkReply>
 #include <QString>
+#include <QEventLoop>
 
 #include "client.h"
 #include "HttpService.h"
 
 // Static members
-QUdpSocket* Server::m_socket = new QUdpSocket();
+QUdpSocket* Server::m_socket;
 std::vector<Client*> Server::clients = std::vector<Client*>();
 StringToFunctioMap Server::commandMap = StringToFunctioMap();
 std::unordered_map<std::string, std::string> Server::functionHelpMap = std::unordered_map<std::string, std::string>();
+HttpService* Server::service = nullptr;
 
 std::string Server::name = "Default";
 
 Server::Server()
 {
     // Binds our static socket to the specied SERVER_PORT
-    m_socket->bind(SERVER_PORT);
+
     //m_socket->setBlocking(false);
 
     /* Inserts all the command-functions into an unordered_map */
@@ -227,25 +229,14 @@ void Server::Send(QUdpSocket* socket, const CommandInfo & info)
     socket->writeDatagram(&info.buffer[0], info.buffer.size() + 1, info.address, info.port);
 }
 
-void Server::replyFinished(QNetworkReply * reply)
-{
-	int hej = 5;
-}
-
-// Wrapper for sf::UdpSocket method 'receive'
+// SLOT: Wrapper for sf::UdpSocket method 'receive'
 void Server::Receive()
 {
-	while (true)
-	{
-		if (m_socket->waitForReadyRead())
-		{
-			CommandInfo info;
-			char bfr[1024];
-			m_socket->readDatagram(bfr, 1024, &info.address, &info.port);
-			info.buffer = bfr;
-			InterpretCommand(info);
-		}
-	}
+    CommandInfo info;
+	char bfr[1024];
+	m_socket->readDatagram(bfr, 1024, &info.address, &info.port);
+	info.buffer = bfr;
+	InterpretCommand(info);
 }
 
 // Finds the client with the same ip and port as the one trying to communicate with the server
@@ -330,4 +321,25 @@ void Server::InterpretCommand(const CommandInfo& info)
             }
         }
     }
+}
+
+
+void Server::InitServer(const QCoreApplication& a)
+{
+	Server* server = new Server();
+	//connect(server, SIGNAL(finished()), &a, SLOT(quit()));
+
+	m_socket = new QUdpSocket();
+	m_socket->bind(SERVER_PORT);
+	connect(m_socket, &QUdpSocket::readyRead, server, &Server::Receive);
+
+	//server->start();
+}
+
+
+void Server::run()
+{
+	QEventLoop loop;
+	connect(this, SIGNAL(finished()), &loop, SLOT(quit()));
+	loop.exec();
 }

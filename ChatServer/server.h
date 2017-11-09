@@ -1,5 +1,7 @@
 #pragma once
 #include <vector>
+#include <QObject>
+#include <QCoreApplication>
 
 #include "common.h"
 
@@ -7,11 +9,13 @@ class Client;
 class QUdpSocket;
 
 // Server class is the subject in an observer pattern with the Client class as observers
-class Server
+class Server : public QObject
 {
 public:
     Server();
     ~Server();
+
+	static void InitServer(const QCoreApplication&);
 
 	static void Connect(const CommandInfo& info);
 	static void Disconnect(const CommandInfo& info);
@@ -20,10 +24,7 @@ public:
 	static void GetBitcoin(const CommandInfo& info);
 	static void Help(const CommandInfo& info);
 
-	static void Receive();
 	static void Send(QUdpSocket* socket, const CommandInfo& info);
-
-	static void replyFinished(class QNetworkReply* reply);
 
 private:
 	static Client* GetClient(const CommandInfo& info);
@@ -42,5 +43,10 @@ private:
 	typedef std::pair<std::string, std::string> stringPair;
 	static std::unordered_map<std::string, std::string> functionHelpMap;
 
+	static class HttpService* service;
+
+private slots:
+	void run();
+	void Receive();
 };
 

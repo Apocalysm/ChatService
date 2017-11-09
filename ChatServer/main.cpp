@@ -2,25 +2,13 @@
 #include <QThread>
 
 #include "server.h"
-
-class ReceiveThread : public QThread
-{
-private:
-	void run()
-	{
-		Server::Receive();
-	}
-};
+#include "HttpService.h"
 
 int main(int argc, char *argv[])
 {
     QCoreApplication a(argc, argv);
 
-	Server server;
-	Server::Receive();
-	/*ReceiveThread thread;
-	ReceiveThread::connect(&thread, SIGNAL(finished()), &a, SLOT(quit()));
-	thread.start();*/
+	Server::InitServer(a);
 
     return a.exec();
 }
